@@ -73,11 +73,17 @@ function JokesList() {
   //here if I have used normal function then it will be called for many times for every component and it will distrub the performance of our website, so to avoid that I am going to use the useCallback()
   const handleVote = useCallback(
     (id, offset) => {
+      //here in filteredJokes we will strore all the jokes except that one on that arrow where we will pass id, here what is happening is when we click on the arrow up or down then we are sending the id over here and we will store all the jokes except that one which id we get
       let filteredJokes = jokes.filter((joke) => joke.id !== id);
+      //   here we will only get that joke which matched the id, because finc method only gives only one value
       let joke = jokes.find((joke) => joke.id === id);
+      //   once we stored the particular joke where arrow is pressed then we update the value of vote
       joke.votes += offset;
+      //now we have changed the value of votes now we can add the particular joke into the filteredJokes
       filteredJokes.push(joke);
+      //now sice we want to bring the joke with higer value to top we are going to use the sort method
       filteredJokes.sort((a, b) => b.votes - a.votes);
+      //   now we will pass the filtersjokes into the setJokes, now in the setJokes we will have updated value
       setJokes(filteredJokes);
     },
     [jokes, setJokes]
